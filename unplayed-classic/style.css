@@ -104,22 +104,6 @@ p {
 		line-height:	13px;
 	}
 
-.tags {
-	display:	inline;
-	margin-left:	0.6em;
-}
-	.tag {
-		display:	inline;
-		color:	#666;
-		font-size:	11px;
-	}
-		.tag:before {
-			content:	"#";
-		}
-		.tag:after {
-			content:	" ";
-		}
-
 
 @media only screen and (min-device-width: 480px){
 	body {
