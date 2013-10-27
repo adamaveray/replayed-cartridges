@@ -24,7 +24,7 @@
 			var $el	= $(this),
 				$unchecked	= $inputs.not(':checked');
 
-			if($unchecked.not($el).length === 0){
+			if($unchecked.not($el).length === 0 && !$el.prop('checked')){
 				// First item toggled
 				$inputs.not($el).prop('checked', false);
 				$el.prop('checked', true);
