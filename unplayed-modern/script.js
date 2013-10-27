@@ -7,7 +7,7 @@
 	// Filtering
 	var filters	= {},
 		$allFilters,
-		animationMax	= 25;
+		animationMax	= 35;
 
 	$('.filter-list').each(function(){
 		var $list	= $(this),
@@ -58,13 +58,13 @@
 				fadeSpeed:	'normal',
 				slideSpeed:	'fast'
 			};
-			if($toHide.length > animationMax && 0){
+			if($toHide.length > animationMax){
 				// Animations will stuggle
 				$toHide.hide();
 			} else {
 				$toHide.fadeOutSlideUp(speed);
 			}
-			if($toShow.length > animationMax && 0){
+			if($toShow.length > animationMax){
 				// Animations will struggle
 				$toShow.show();
 			} else {
