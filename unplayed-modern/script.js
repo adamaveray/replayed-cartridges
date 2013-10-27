@@ -9,8 +9,41 @@
 		$allFilters,
 		animationMax	= 35;
 
-	$('.filter-list').each(function(){
-		var $list	= $(this),
+	var showFilterClear	= function($list){
+			var $clear	= $list.data('clear-button');
+			if(!$clear){
+				// Create button
+				$clear	= $('<button class="clear-button" type="button" />').text('Clear');
+				$list.data('clear-button', $clear);
+				$clear.hide()
+					  .appendTo($list)
+					  .click(function(){
+					// Clear all
+					var $inputs	= $list.find('input');
+					$inputs.prop('checked', true);
+					$inputs.eq(0).change();
+				});
+			}
+
+			if($clear.is(':hidden')){
+				$clear.show();
+			}
+		},
+		hideFilterClear	= function($filter){
+			var $clear	= $filter.data('clear-button');
+			if(!$clear){
+				// Nothing to remove
+				return;
+			}
+
+			if($clear.is(':visible')){
+				$clear.hide();
+			}
+		};
+
+	$('.filter-container').each(function(){
+		var $container	= $(this),
+			$list	= $container.children('.filter-list'),
 			type	= $list.data('type'),
 			$inputs	= $list.find('input');
 
@@ -18,9 +51,6 @@
 		$allFilters	= ($allFilters ? $allFilters.add($inputs) : $inputs);
 
 		$inputs.change(function(){
-			var showClasses	= [],
-				hideClasses	= [];
-
 			var $el	= $(this),
 				$unchecked	= $inputs.not(':checked');
 
@@ -34,6 +64,12 @@
 				$inputs.prop('checked', true);
 			}
 
+			if($inputs.not(':checked').length){
+				showFilterClear($container);
+			} else {
+				hideFilterClear($container);
+			}
+
 			// Collate all to hide
 			var $toShow	= $items,
 				$toHide;
@@ -41,6 +77,7 @@
 				var $filters	= filters[type],
 					showClasses	= [],
 					hideClasses	= [];
+
 				if(!$filters.not(':checked').length){
 					continue;
 				}
