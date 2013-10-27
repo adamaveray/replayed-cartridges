@@ -35,8 +35,16 @@
 			}
 
 			// Collate all to hide
+			var $toShow	= $items,
+				$toHide;
 			for(var type in filters){
-				var $filters	= filters[type];
+				var $filters	= filters[type],
+					showClasses	= [],
+					hideClasses	= [];
+				if(!$filters.not(':checked').length){
+					continue;
+				}
+
 				$filters.each(function(){
 					var $filter		= $(this),
 						className	= type+'-'+$filter.attr('value');
@@ -47,23 +55,27 @@
 						hideClasses.push(className);
 					}
 				});
+
+				$toShow	= $toShow.filter('.'+showClasses.join(',.'));
 			}
 
-			// Toggle elements
-			var hideClassList	= '.'+hideClasses.join(',.'),
-				$toHide	= (hideClasses.length ? $items.filter(hideClassList) : $()).filter(':visible'),
-				$toShow	= (hideClasses.length ? $items.not(hideClassList) : $items).filter(':hidden');
+			$toHide	= $items.not($toShow);
 
+			// Toggle elements
 			var speed	= {
 				fadeSpeed:	'normal',
 				slideSpeed:	'fast'
 			};
+
+			$toHide	= $toHide.filter(':visible');
 			if($toHide.length > animationMax){
 				// Animations will stuggle
 				$toHide.hide();
 			} else {
 				$toHide.fadeOutSlideUp(speed);
 			}
+
+			$toShow	= $toShow.filter(':hidden');
 			if($toShow.length > animationMax){
 				// Animations will struggle
 				$toShow.show();
